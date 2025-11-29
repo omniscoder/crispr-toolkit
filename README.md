@@ -13,7 +13,13 @@ python -m pip install crispr-toolkit
 ## Quickstart
 
 ```python
-from crispr_toolkit import normalize_seq, find_pam_sites, validate_guide
+from crispr_toolkit import (
+    normalize_seq,
+    find_pam_sites,
+    validate_guide,
+    design_pegRNA,
+    basic_on_target_score,
+)
 
 seq = normalize_seq("acgtacgtGGGcttacggt")
 sites = find_pam_sites(seq, "NGG")
@@ -21,6 +27,19 @@ result = validate_guide(seq[2:24])
 
 print(sites)
 print(result.is_valid, result.gc_content)
+
+# Example: simple prime editing scaffold
+components = design_pegRNA(
+    ref_seq=seq,
+    edit_pos=5,
+    edit_type="substitution",
+    edit_seq="A",
+)
+print(components.pbs, components.rtt)
+
+# Example: basic rule-based on-target score
+score = basic_on_target_score(seq[2:22])
+print(score)
 ```
 
 ## Roadmap
@@ -34,4 +53,3 @@ Planned future features include:
 ## License
 
 This project is released under the MIT License. See `LICENSE` for details.
-
